@@ -1,0 +1,129 @@
+options:
+	prefix: &8[&6Booster&8] &6» 
+
+on first join:
+	set {booster.number.%UUID of player%} to 0
+
+command /boost [<text>]:
+	aliases: booster
+	trigger:
+		if arg 1 isn't set:
+			send "{@prefix} &cFait /boost &a[&eFreeCube&f,&cPrison&a]" to player
+		else:
+			if arg 1 is "FreeCube":
+				if {booster.use.1} is true:
+					send "{@prefix} &cIl y a déjà un booster sur le Mini-Jeux &e%arg 1% &c!" to player
+				else:
+					loop all players:
+						if {booster.number.%UUID of player%} >= 1:
+							set {booster.use.1} to true
+							remove 1 from {booster.number.%UUID of player%}
+							set {booster.merci.1.%UUID of player%} to false
+							add "%player%" to {booster.player.1::*}
+							send "{@prefix} &aVous avez bien boosté le Mini-Jeux &e%arg 1% &a!" to player
+							broadcast "&8&m------------------------------------------------"
+							broadcast "&8"
+							broadcast "{@prefix} &e&lMini-Jeux &b%arg 1% &e&lBoosté par &c%{booster.player.1::*}% &e&l!"
+							broadcast "&8"
+							broadcast "&8&m------------------------------------------------"
+							execute console command "tellraw %loop-player% [{""text"":"""",""extra"":[{""text"":""&f• &7&nRemercie %player% en cliquant ici !"",""clickEvent"":{""action"":""run_command"",""value"":""/merci""}, ""hoverEvent"":{""action"":""show_text"",""value"":""&6● &7Gagne 200 Elex""}}]}]"
+							add 20000 to {elex.%UUID of player%}
+							send "{@prefix} &aTu as reçu &920.000 &bElex &apour avoir Boosté le serveur &e%arg 1%" to player
+							wait 1 hour
+							remove "%player%" from {booster.player.1::*}
+							set {booster.use.1} to false
+							broadcast "{@prefix} &cBooster du Jeux &e%arg 1% &cFini !"
+						else:
+							send "{@prefix} &cTu n'as pas assez de booster vas dans la &bBoutique &c!" to player
+				#if arg 1 is "Prison":
+					#if {booster.number.%UUID of player%} >= 1:
+						#if {booster.use.2} is false:
+							#set {booster.use.2} to true
+							#remove 1 from {booster.number.%UUID of player%}
+							#set {booster.merci.2.%UUID of player%} to false
+							#add "%player%" to {booster.player.2::*}
+							#send "{@prefix} &aVous avez bien boosté le Mini-Jeux &e%arg 1% &a!" to player
+							#execute console command "tellraw %player% [{""text"":"""",""extra"":[{""text"":""&f• &7&nRemercie %player% en cliquant ici !"",""clickEvent"":{""action"":""run_command"",""value"":""/merci""}, ""hoverEvent"":{""action"":""show_text"",""value"":""&6● &7Gagne 200 Elex""}}]}]"
+							#wait 1 hour
+							#remove "%player%" from {booster.player.2::*}
+							#set {booster.use.2} to false
+							#broadcast "{@prefix} &cBooster du Jeux &e%arg 1% Fini !"
+						#else:
+							#send "{@prefix} &cIl y a déjà un booster sur le Mini-Jeux &e%arg 1% &c!" to player
+					#else:
+						#send "{@prefix} &cTu n'as pas assez de booster vas dans la &bBoutique" to player
+
+command /merci:
+	trigger:
+		if {booster.use.1} is true:
+			if {booster.merci.1.%UUID of player%} is false:
+				send "{@prefix} &aTu as bien remercié pour le Mini-Jeux &eFreeCube &a!" to player
+				send "{@prefix} &aTu as gagné &b200 &aElex" to player
+				add 200 to {elex.%UUID of player%}
+				set {booster.merci.1.%UUID of player%} to true
+			else:
+				send "{@prefix} &cTu as déjà remercié &b%{booster.player.1::*}% &c!"
+		
+		#if {booster.use.2} is true:
+			#if {booster.merci.2.%UUID of player%} is false:
+				#send "{@prefix} &aTu as bien remercié pour le Mini-Jeux &eOP-Prison &a!" to player
+				#send "{@prefix} &aTu as gagné &b200 &aElex" to player
+				#set {booster.merci.2.%UUID of player%} to true
+			#else:
+				#send "{@prefix} &cTu as déjà remercié !"
+		else:
+			send "{@prefix} &cIl n'y a aucun booster Lancé !" to player
+
+
+command /viewsbooster:
+	trigger:
+		if {booster.use.1} is true:
+			send "&8&m--------------------------"  to player
+			send "&8" to player
+			send "&8&eFreeCube &aBoosté par &b%{booster.player.1::*}%" to player
+			send "&8" to player
+			send "&8&eOP-Prison &aBoosté par &cPersonne" to player
+			send "&8" to player
+			send "&8&m--------------------------" to player
+			#if {booster.use.2} is true:
+				#send "&8&m--------------------------"  to player
+				#send "&8" to player
+				#send "&8&eOP-Prison &aBoosté par %{booster.player.2::*}%" to player
+				#send "&8" to player
+				#send "&8&m--------------------------" to player
+			#else:
+				#send "&8&m--------------------------"  to player
+				#send "&8" to player
+				#send "&8&eOP-Prison &aBoosté par &cPersonne" to player
+				#send "&8" to player
+				#send "&8&m--------------------------" to player
+		else:
+			send "&8&m--------------------------" to player
+			send "&8" to player
+			send "&8&eFreeCube &aBoosté par &cPersonne" to player
+			send "&8" to player
+			send "&8&eOP-Prison &aBoosté par &cPersonne" to player
+			send "&8" to player
+			send "&8&m--------------------------" to player
+
+command /as:
+	trigger:
+		if player is op:
+			add 1 to {booster.number.%UUID of player%}
+			send "{@prefix} &cTu as réçu 1 Booster [%{booster.number.%UUID of player%}%]" to player
+		else:
+			send "{@prefix} &cMdr..." to player
+
+command /clb:
+	trigger:
+		if player is op:
+			if {booster.use.1} or {booster.use.2} is true:
+				set {booster.use.1} to false
+				set {booster.use.2} to false
+				clear {booster.player.1::*}
+				clear {booster.merci.1.%UUID of player%}
+				send "{@prefix} &cTu viens de supprimer le Booster en cours !" to player
+			else:
+				send "{@prefix} &cIl y a aucun boost en cours !" to player
+		else:
+			send "{@prefix} &cMdr..." to player
