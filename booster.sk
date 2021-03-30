@@ -6,6 +6,8 @@ options:
 command /boostmaj:
 	permission: boost.op
 	trigger:
+		clear {_ver}
+		wait 1 tick
 		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/version"
 		if {_ver} is not "{@version}":
 			if {@AutoUpdate} is true:
