@@ -4,23 +4,24 @@ options:
 	AutoUpdate: true
 
 command /boostmaj:
+	permission: boost.op
 	trigger:
-		if player is op:
-			set {_ver} to text from "https://raw.githubusercontent.com/NorXV1/Booster/main/version"
-			if {_ver} is not "{@version}":
-				if {@AutoUpdate} is true:
-					if file exists at "plugins/Skript/scripts/Support/%script's name%.sk"
-						send "{@prefix} &6Mise à jour disponible !" to player
-						download "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/Support/%script's name%.sk"
-						wait 5 seconds
-						execute console command "/sk reload /Support/%script's name%.sk"
-						send "{@prefix} &6Mise à jour terminé !" to player
-				else:
-					send "{@prefix} &cLa mise à jour Automatique est désactivé !" to player
+		set {_ver} to line 1 from url "https://github.com/NorXV1/Booster/blob/main/version"
+		if {_ver} is not "{@version}":
+			if {@AutoUpdate} is true:
+				if file "plugins/Skript/scripts/Support/booster.sk" exists:
+					send "{@prefix} &6Mise à jour disponible !" 
+					delete file "plugins/Skript/scripts/Support/booster.sk" 
+					wait 5 ticks
+					create file "plugins/Skript/scripts/Support/booster.sk"
+					download from "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/Support/%script's name%.sk"
+					wait 5 seconds
+					execute console command "/sk reload /Support/booster.sk"
+					send "{@prefix} &6Mise à jour terminé !"
 			else:
-				send "{@prefix} &aAucune mise à jour disponible." to player
+				send "{@prefix} &cLa mise à jour Automatique est désactivé !" 
 		else:
-			send "{@prefix} &cVous ne pouvez pas effectuer cette commande !" to player
+			send "{@prefix} &aAucune mise à jour disponible." 
 
 on first join:
 	set {booster.number.%UUID of player%} to 0
