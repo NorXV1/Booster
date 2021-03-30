@@ -1,6 +1,6 @@
 options:
 	prefix: &8[&6Booster&8] &6» 
-	version: 1.4
+	version: 1.5 #Ne pas toucher !!!
 	AutoUpdate: true
 
 command /boostmaj:
