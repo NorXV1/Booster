@@ -6,7 +6,7 @@ options:
 command /boostmaj:
 	permission: boost.op
 	trigger:
-		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/version"
+		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
 		if {_ver} is not "{@version}":
 			if {@AutoUpdate} is true:
 				if file "plugins/Skript/scripts/Support/booster.sk" exists:
