@@ -6,7 +6,7 @@ options:
 command /boostmaj:
 	permission: boost.op
 	trigger:
-		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/Version"
+		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/version"
 		if {_ver} is not "{@version}":
 			if {@AutoUpdate} is true:
 				if file "plugins/Skript/scripts/Support/booster.sk" exists:
@@ -14,7 +14,7 @@ command /boostmaj:
 					delete file "plugins/Skript/scripts/Support/booster.sk" 
 					wait 5 ticks
 					create file "plugins/Skript/scripts/Support/booster.sk"
-					download from "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/Support/%script's name%.sk"
+					download from "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/Support/booster.sk"
 					wait 5 seconds
 					execute console command "/sk reload /Support/booster.sk"
 					send "{@prefix} &6Mise à jour terminé !"
