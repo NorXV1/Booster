@@ -7,7 +7,7 @@ on load:
 
 	wf "## Configuration Skript Booster" to "plugins/Booster/config.yml"
 
-	set "Update.Version" to "1.8" in yaml file "plugins/Booster/config.yml"
+	set "Update.Version" to "1.9" in yaml file "plugins/Booster/config.yml"
 	set "Update.Update" to "true" in yaml file "plugins/Booster/config.yml"
 
 command /boostmaj:
@@ -76,6 +76,10 @@ command /boost [<text>]:
 				message "&l&bUpdate: &c%{_update}%"
 
 				message "&l&bVersion: &c%{_ver}%"
+			else if arg 1 is "reload" or "rl":
+				execute console command "/sk reload /Support/booster.sk"
+				wait 1 seconds
+				send "{@prefix} &aSkript Booster à bien été reboot !"
 				#if arg 1 is "Prison":
 					#if {booster.number.%UUID of player%} >= 1:
 						#if {booster.use.2} is false:
