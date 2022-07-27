@@ -32,7 +32,7 @@ command /boostmaj:
 		set {_version} to single value "Update.Version" get of "plugins/Booster/config.yml"
 		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
 		if {_ver} is not "%{_version}%":
-			if {_update} is "true":
+			if {_update} = "true":
 				if file "plugins/Skript/scripts/booster.sk" exists:
 					send "{@prefix} &6Mise à jour disponible !"
 					delete file "plugins/Booster/config.yml"
