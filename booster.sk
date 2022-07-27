@@ -22,7 +22,7 @@ on load:
 
 	wf "## Configuration Skript Booster" to "plugins/Booster/config.yml"
 
-	set "Update.Version" to "2.1" in yaml file "plugins/Booster/config.yml"
+	set "Update.Version" to "2.2" in yaml file "plugins/Booster/config.yml"
 	set "Update.Update" to "true" in yaml file "plugins/Booster/config.yml"
 
 command /boostmaj:
