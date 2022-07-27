@@ -1,6 +1,21 @@
 options:
 	prefix: &8[&6Booster&8] &6» 
 
+on connect:
+	if player has permission "*":
+		wait 3 seconds
+		set {_update} to single value "Update.Update" get of "plugins/Booster/config.yml"
+		set {_version} to single value "Update.Version" get of "plugins/Booster/config.yml"
+		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
+		if {_ver} is not "%{_version}%":
+			send "&f"
+			send "{@prefix} &cMise à jour disponible !" 
+			send "&f"
+		else:
+			send "&f"
+			send "{@prefix} &aAucune mise à jour disponible."
+			send "&f"
+
 on load:
 	
 	create file "plugins/Booster/config.yml"
