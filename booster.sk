@@ -9,7 +9,7 @@ on connect:
 		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
 		if {_ver} is not "%{_version}%":
 			send "&f"
-			send "{@prefix} &cMise à jour disponible !" 
+			send "{@prefix} &cMise à jour disponible ! &f(&aVersion &b➜ &6%{_ver}%&f)" 
 			send "&f"
 		else:
 			send "&f"
@@ -24,29 +24,6 @@ on load:
 
 	set "Update.Version" to "2.2" in yaml file "plugins/Booster/config.yml"
 	set "Update.Update" to "true" in yaml file "plugins/Booster/config.yml"
-
-command /boostmaj:
-	permission: boost.op
-	trigger:
-		set {_update} to single value "Update.Update" get of "plugins/Booster/config.yml"
-		set {_version} to single value "Update.Version" get of "plugins/Booster/config.yml"
-		set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
-		if {_ver} is not "%{_version}%":
-			if {_update} = "true":
-				if file "plugins/Skript/scripts/booster.sk" exists:
-					send "{@prefix} &6Mise à jour disponible !"
-					delete file "plugins/Booster/config.yml"
-					delete file "plugins/Skript/scripts/booster.sk" 
-					wait 5 ticks
-					create file "plugins/Skript/scripts/booster.sk"
-					download from "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/booster.sk"
-					wait 5 seconds
-					execute console command "/sk reload /booster.sk"
-					send "{@prefix} &6Mise à jour terminé !"
-			else:
-				send "{@prefix} &cLa mise à jour Automatique est désactivé !" 
-		else:
-			send "{@prefix} &aAucune mise à jour disponible." 
 
 on first join:
 	set {booster.number.%UUID of player%} to 0
@@ -96,6 +73,27 @@ command /boost [<text>]:
 				execute console command "/sk reload /Support/booster.sk"
 				wait 1 seconds
 				send "{@prefix} &aSkript Booster à bien été reboot !"
+			else if arg 1 is "maj":
+				set {_update} to single value "Update.Update" get of "plugins/Booster/config.yml"
+				set {_version} to single value "Update.Version" get of "plugins/Booster/config.yml"
+				set {_ver} to line 1 from url "https://raw.githubusercontent.com/NorXV1/Booster/main/ver"
+				if {_ver} is not "%{_version}%":
+					if {_update} = "true":
+						if file "plugins/Skript/scripts/booster.sk" exists:
+							send "{@prefix} &eMise à jour en cours !"
+							delete file "plugins/Booster/config.yml"
+							delete file "plugins/Skript/scripts/booster.sk" 
+							wait 5 ticks
+							create file "plugins/Skript/scripts/booster.sk"
+							download from "https://raw.githubusercontent.com/NorXV1/Booster/main/booster.sk" to "plugins/Skript/scripts/booster.sk"
+							wait 5 seconds
+							execute console command "/sk reload /booster.sk"
+							send "{@prefix} &6Mise à jour terminé !"
+					else:
+						send "{@prefix} &cLa mise à jour Automatique est désactivé !" 
+						send "%{_update}%"
+				else:
+					send "{@prefix} &aAucune mise à jour disponible." 
 				#if arg 1 is "Prison":
 					#if {booster.number.%UUID of player%} >= 1:
 						#if {booster.use.2} is false:
