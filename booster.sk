@@ -34,7 +34,8 @@ command /boostmaj:
 		if {_ver} is not "%{_version}%":
 			if {_update} is "true":
 				if file "plugins/Skript/scripts/booster.sk" exists:
-					send "{@prefix} &6Mise à jour disponible !" 
+					send "{@prefix} &6Mise à jour disponible !"
+					delete file "plugins/Booster/config.yml"
 					delete file "plugins/Skript/scripts/booster.sk" 
 					wait 5 ticks
 					create file "plugins/Skript/scripts/booster.sk"
